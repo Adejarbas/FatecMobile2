@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
-import { TextInput, Button, ActivityIndicator } from 'react-native-paper';
+import { TextInput, Button, ActivityIndicator, Menu, Divider } from 'react-native-paper';
 
 export default function HomeScreen() {
   const [cep, setCep] = useState('');
@@ -11,15 +11,17 @@ export default function HomeScreen() {
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // Controle para mostrar/esconder o menu de estados
+  const [menuVisivel, setMenuVisivel] = useState(false);
 
-  // Lista de estados para o formulário
-  const estadosBrasileiros = [
-    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 
-    'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 
-    'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+  // Lista simplificada de estados
+  const listaEstados = [
+    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 
+    'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 
+    'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
   ];
 
-  // Função para buscar o CEP e preencher os campos do formulário
   const buscarCep = async () => {
     if (cep.length !== 8) {
       Alert.alert('Aviso', 'O CEP deve ter 8 números.');
@@ -58,7 +60,6 @@ export default function HomeScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
       <View style={styles.row}>
         <TextInput
           label="CEP"
@@ -130,17 +131,41 @@ export default function HomeScreen() {
           textColor="#000"
         />
         
-        {/* Usando um TextInput com menu simples para emular combo box sem complicar muito para iniciante */}
-        <TextInput
-          label="UF"
-          value={estado}
-          mode="flat"
-          style={[styles.input, { flex: 1 }]}
-          theme={temaInput}
-          editable={true}
-          onChangeText={(text) => setEstado(text.toUpperCase().substring(0, 2))}
-          textColor="#000"
-        />
+        {/* Combo Box (Menu de Seleção para Estado) */}
+        <View style={{ flex: 1 }}>
+          <Menu
+            visible={menuVisivel}
+            onDismiss={() => setMenuVisivel(false)}
+            anchor={
+              <TextInput
+                label="UF"
+                value={estado}
+                mode="flat"
+                style={styles.input}
+                theme={temaInput}
+                textColor="#000"
+                editable={false}
+                onPressIn={() => setMenuVisivel(true)}
+                right={<TextInput.Icon icon="chevron-down" onPress={() => setMenuVisivel(true)} />}
+              />
+            }
+          >
+            <ScrollView style={{ maxHeight: 200 }}>
+              {listaEstados.map((uf) => (
+                <React.Fragment key={uf}>
+                  <Menu.Item
+                    onPress={() => {
+                      setEstado(uf);
+                      setMenuVisivel(false);
+                    }}
+                    title={uf}
+                  />
+                  <Divider />
+                </React.Fragment>
+              ))}
+            </ScrollView>
+          </Menu>
+        </View>
       </View>
 
       <Button 
