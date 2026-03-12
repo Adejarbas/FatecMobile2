@@ -12,6 +12,14 @@ export default function HomeScreen() {
   const [complemento, setComplemento] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Lista de estados para o formulário
+  const estadosBrasileiros = [
+    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 
+    'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 
+    'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+  ];
+
+  // Função para buscar o CEP e preencher os campos do formulário
   const buscarCep = async () => {
     if (cep.length !== 8) {
       Alert.alert('Aviso', 'O CEP deve ter 8 números.');
@@ -42,9 +50,9 @@ export default function HomeScreen() {
 
   const temaInput = {
     colors: {
-      onSurfaceVariant: '#000', // Cor do label (texto que indica o campo)
-      primary: '#000',          // Cor da linha quando clica
-      text: '#000',             // Cor do texto digitado
+      onSurfaceVariant: '#000',
+      primary: '#000',
+      text: '#000',
     }
   };
 
@@ -121,13 +129,16 @@ export default function HomeScreen() {
           theme={temaInput}
           textColor="#000"
         />
+        
+        {/* Usando um TextInput com menu simples para emular combo box sem complicar muito para iniciante */}
         <TextInput
           label="UF"
           value={estado}
-          onChangeText={setEstado}
           mode="flat"
           style={[styles.input, { flex: 1 }]}
           theme={temaInput}
+          editable={true}
+          onChangeText={(text) => setEstado(text.toUpperCase().substring(0, 2))}
           textColor="#000"
         />
       </View>
@@ -163,7 +174,7 @@ const styles = StyleSheet.create({
   btnBusca: {
     height: 50,
     justifyContent: 'center',
-    backgroundColor: '#4484ac', 
+    backgroundColor: '#000',
   },
   input: {
     marginBottom: 12,
@@ -175,6 +186,6 @@ const styles = StyleSheet.create({
   btnCadastro: {
     marginTop: 20,
     paddingVertical: 5,
-    backgroundColor: '#4484ac',
+    backgroundColor: '#2e7d32',
   },
 });
