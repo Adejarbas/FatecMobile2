@@ -12,10 +12,8 @@ export default function HomeScreen() {
   const [complemento, setComplemento] = useState('');
   const [loading, setLoading] = useState(false);
   
-  // Controle para mostrar/esconder o menu de estados
   const [menuVisivel, setMenuVisivel] = useState(false);
 
-  // Lista simplificada de estados
   const listaEstados = [
     'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 
     'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 
@@ -131,7 +129,6 @@ export default function HomeScreen() {
           textColor="#000"
         />
         
-        {/* Combo Box (Menu de Seleção para Estado) */}
         <View style={{ flex: 1 }}>
           <Menu
             visible={menuVisivel}
@@ -199,7 +196,7 @@ const styles = StyleSheet.create({
   btnBusca: {
     height: 50,
     justifyContent: 'center',
-    backgroundColor: '#000',
+    backgroundColor: '#2c6593',
   },
   input: {
     marginBottom: 12,
@@ -211,6 +208,6 @@ const styles = StyleSheet.create({
   btnCadastro: {
     marginTop: 20,
     paddingVertical: 5,
-    backgroundColor: '#2e7d32',
+    backgroundColor: '#2c6593',
   },
 });
